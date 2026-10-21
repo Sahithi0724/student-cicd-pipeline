@@ -51,5 +51,22 @@ pipeline {
                 '''
             }
         }
+        stage('Docker Hub Publish') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKERHUB_USER',
+                    passwordVariable: 'DOCKERHUB_TOKEN'
+                )]) {
+                    sh '''
+			set -e
+			echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
+                        docker tag student-cicd-app:1.0 "$DOCKERHUB_USER/student-cicd-app:1.0"
+                        docker push "$DOCKERHUB_USER/student-cicd-app:1.0"
+                        docker logout
+                    '''
+                }
+            }
+        }
     }
 }
