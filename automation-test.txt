@@ -1,2 +1,1 @@
-Testing Jenkins automatic builds
-Testing GitHub webhook
+Testing GitHub to Jenkins webhook automation
